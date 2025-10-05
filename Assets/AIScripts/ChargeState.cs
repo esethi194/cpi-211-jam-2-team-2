@@ -6,7 +6,7 @@ public class ChargeState : MonsterState
     {
         base.OnEnterState(monsterAI);
         // activate the monster
-        monster.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        monster.gameObject.GetComponent<MeshRenderer>().enabled = false;
         // activate the navmesh agent
         monster.agent.isStopped = false;
         monster.agent.speed = monster.chargeSpeed;
