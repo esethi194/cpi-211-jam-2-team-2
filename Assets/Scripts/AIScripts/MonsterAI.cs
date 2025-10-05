@@ -46,5 +46,24 @@ public class MonsterAI : MonoBehaviour
         currentState = newState;
         currentState.OnEnterState(this);
     }
-    
+    public void UpdateMonsterState()
+    {
+
+        int count = GameManager.instance.monstersCount;
+        if (count == 1)
+        {
+           
+            ChangeState(new RoamingState());
+        }
+        else if (count == 2)
+        {
+            
+            ChangeState(new StalkingState());
+        }
+        else if (count >= 3)
+        {
+            ChangeState(new ChargeState());
+        }
+        
+    }
 }
