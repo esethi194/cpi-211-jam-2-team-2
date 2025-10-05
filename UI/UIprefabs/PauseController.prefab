@@ -200,13 +200,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5217782176667159694}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 2308596978428998241}
+        m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+        m_MethodName: Resume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -604,7 +604,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7695158549826231329}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2308596978428998241}
+        m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+        m_MethodName: GoToMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5217782176667159694
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,7 +626,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6460914482724703547}
-  - component: {fileID: 1754442202884391002}
+  - component: {fileID: 2308596978428998241}
   - component: {fileID: 5685080072620451974}
   - component: {fileID: 6379279036123330854}
   - component: {fileID: 7100975000369973868}
@@ -645,7 +657,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1754442202884391002
+--- !u!114 &2308596978428998241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -657,9 +669,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b8b7dfa2fb7d4618b2be0ce50355534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pausePanel: {fileID: 79361440791402691}
+  pausePanel: {fileID: 2443743983719799973}
+  hud: {fileID: 0}
   rulesSceneName: Rules
-  mainMenuSceneName: MainGame
+  mainMenuSceneName: MainMenu
 --- !u!223 &5685080072620451974
 Canvas:
   m_ObjectHideFlags: 0
@@ -1115,4 +1128,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4338723693566725563}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2308596978428998241}
+        m_TargetAssemblyTypeName: PauseController, Assembly-CSharp
+        m_MethodName: OpenRules
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

@@ -1,15 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class PauseController : MonoBehaviour
 {
     [Header("Refs")]
-    [SerializeField] private GameObject pausePanel;      // assign your Pause Canvas (set inactive)
-
+    [SerializeField] private GameObject pausePanel;
+    [SerializeField] private HUDController hud;
     [Header("Scene Names")]
-    [SerializeField] private string rulesSceneName    = "Rules";
+    [SerializeField] private string rulesSceneName = "Rules";
     [SerializeField] private string mainMenuSceneName = "MainMenu";
-    [SerializeField] private Animator recAnimator;
+
 
     private bool isPaused;
 
@@ -17,16 +18,31 @@ public class PauseController : MonoBehaviour
     {
         isPaused = false;
         if (pausePanel) pausePanel.SetActive(false);
+        
+        if (hud == null)
+            hud = FindFirstObjectByType<HUDController>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P)){
             SetPaused(!isPaused);
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            if (hud) hud.CorrectReportMade();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (hud) hud.WrongReportMade();
+        }
     }
 
-    //Buttons
-    public void Resume() => SetPaused(false);
+    public void Resume()
+    {
+        SetPaused(false);
+    }
 
     public void OpenRules()
     {
@@ -37,7 +53,6 @@ public class PauseController : MonoBehaviour
     public void GoToMenu()
     {
         Time.timeScale = 1f;
-        Cursor.visible = true;
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
@@ -46,7 +61,6 @@ public class PauseController : MonoBehaviour
         if (pausePanel) pausePanel.SetActive(true);
     }
 
-    //Core    
     private void SetPaused(bool pause)
     {
         isPaused = pause;
@@ -54,6 +68,4 @@ public class PauseController : MonoBehaviour
 
         Time.timeScale = pause ? 0f : 1f;
     }
-
-    
 }
