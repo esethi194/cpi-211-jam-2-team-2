@@ -22,7 +22,7 @@ public class MonsterAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        ChangeState(new RoamingState());
+        ChangeState(new NoActionState());
         
     }
 

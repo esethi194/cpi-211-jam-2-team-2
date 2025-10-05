@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monstersCount: 1
-  monster: {fileID: 0}
+  monster: {fileID: 3837621913061714539, guid: b6e6c92c0e84bb39ab667a88f182761b, type: 3}

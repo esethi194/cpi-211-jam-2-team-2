@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public int monstersCount = 0;
-    public MonsterAI monster;
+    public GameObject monster;
     private void Awake()
     {
         if (instance == null)
@@ -17,11 +17,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    // delete this once anomoly system works 
-    public void Update()
-    {
-        UpdateMonsterState();
-    }
+   
 
    
     
@@ -39,15 +35,18 @@ public class GameManager : MonoBehaviour
 
         if (monstersCount == 1)
         {
-            monster.ChangeState(new RoamingState());
+            monster.SetActive(true);
+            monster.GetComponent<MonsterAI>().ChangeState(new RoamingState());
         }
         else if (monstersCount == 2)
         {
-            monster.ChangeState(new StalkingState());
+            monster.SetActive(true);
+            monster.GetComponent<MonsterAI>().ChangeState(new StalkingState());
         }
         else if (monstersCount >= 3)
         {
-            monster.ChangeState(new ChargeState());
+            monster.SetActive(true);
+            monster.GetComponent<MonsterAI>().ChangeState(new ChargeState());
         }
         
     }
@@ -55,6 +54,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         // game over code
+        Debug.Log("Game Over");
     }
     
     
