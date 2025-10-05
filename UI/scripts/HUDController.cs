@@ -27,6 +27,8 @@ public class HUDController : MonoBehaviour
     [Header("Report Alert System")]
     [SerializeField] private TMP_Text promptText;
     [SerializeField] private float alertDuration = 2.0f;
+    [SerializeField] private TMPro.TMP_Text strikesText;
+    [SerializeField] private TMPro.TMP_Text activeText;
 
     private float flashTimer;
     private bool isFlashing;
@@ -155,5 +157,21 @@ public class HUDController : MonoBehaviour
         Debug.Log("[BackToMenu] Going back to main menu");
         Time.timeScale = 1f; // Reset time in case game was paused
         SceneManager.LoadScene(mainMenuSceneName);
+    }
+    // Minimal implementations so callers compile:
+    public void PlayReportFlash(bool success)
+    {
+        TriggerFlash();
+        Debug.Log(success ? "[HUD] Correct report!" : "[HUD] Wrong report!");
+    }
+
+    public void SetStrikes(int current, int max)
+    {
+        if (strikesText) strikesText.text = $"Strikes: {current}/{max}";
+    }
+
+    public void SetActive(int current, int max)
+    {
+        if (activeText) activeText.text = $"Active: {current}/{max}";
     }
 }
