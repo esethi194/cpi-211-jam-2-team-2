@@ -6,7 +6,7 @@ public class NoActionState : MonsterState
     {
         base.OnEnterState(monsterAI);
         monster.agent.isStopped = true;
-        monster.gameObject.SetActive(false);
+        monster.gameObject.GetComponent<MeshRenderer>().enabled = false;
         Debug.Log("NoActionState");
     }
 

@@ -15,6 +15,9 @@ public class MonsterAI : MonoBehaviour
     public float stalkingDistance = 7f;
     public float disappearingDistance = 5f;
     
+    //Charge
+    public float chargeSpeed = 12f;
+    
     //current monster state
     private MonsterState currentState; 
     

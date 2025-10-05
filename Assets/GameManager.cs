@@ -36,17 +36,17 @@ public class GameManager : MonoBehaviour
 
         if (monstersCount == 1)
         {
-            monster.SetActive(true);
+            monster.gameObject.GetComponent<MeshRenderer>().enabled = true;
             monster.GetComponent<MonsterAI>().ChangeState(new RoamingState());
         }
         else if (monstersCount == 2)
         {
-            monster.SetActive(true);
+            monster.gameObject.GetComponent<MeshRenderer>().enabled = true;
             monster.GetComponent<MonsterAI>().ChangeState(new StalkingState());
         }
         else if (monstersCount >= 3)
         {
-            monster.SetActive(true);
+            monster.gameObject.GetComponent<MeshRenderer>().enabled = true;
             monster.GetComponent<MonsterAI>().ChangeState(new ChargeState());
         }
         
