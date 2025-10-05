@@ -22,9 +22,10 @@ public class GameManager : MonoBehaviour
    
     
     //call this method to indicate when the player has to many anomalies present
-    public void RegisterMonsterState()
+    // The number is the state the monster will be in so 0 is inactive and 3 is game over
+    public void RegisterMonsterState(int stateNumber)
     {
-        monstersCount++;
+        monstersCount = stateNumber;
         
         UpdateMonsterState();
     }

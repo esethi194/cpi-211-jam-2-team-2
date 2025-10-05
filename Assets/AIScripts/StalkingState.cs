@@ -10,6 +10,7 @@ public class StalkingState : MonsterState
         monster.gameObject.SetActive(true);
         // activate the navmesh agent
         monster.agent.isStopped = false;
+        monster.agent.speed = monster.stalkingSpeed;
 
         StalkPlayer();
         
