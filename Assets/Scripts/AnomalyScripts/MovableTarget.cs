@@ -1,0 +1,1 @@
+namespace Contrast { using UnityEngine; public class MovableTarget : MonoBehaviour { } }
