@@ -4,8 +4,8 @@ namespace Contrast
 {
     public interface IAnomaly
     {
-        void Initialize(IAnomalyRuntimeContext ctx);
-        void ForceResolve(); //Called if player reports correctly
+        void Initialize(AnomalyRuntimeContext ctx);
+        void ForceResolve();              // Called if player reports correctly or for cleanup
         bool IsResolved { get; }
         AnomalyDefinition Definition { get; }
         RoomController Room { get; }
@@ -17,6 +17,6 @@ namespace Contrast
         public AnomalyDefinition definition;
         public RoomController room;
         public SpawnPoint spawnPoint;
-        public System.Action<IAnomaly> onResolved; //Callback to notify manager when resolved
+        public System.Action<IAnomaly> onResolved; // notify manager when done
     }
 }

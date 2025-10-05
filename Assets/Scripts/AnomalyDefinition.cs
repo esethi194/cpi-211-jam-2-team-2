@@ -2,8 +2,6 @@ using UnityEngine;
 
 namespace Contrast
 {
-    public enum AnomalyType { Visual, Object, Intruder, Environmental, Audio, Other} //Can add or remove types
-
     [CreateAssetMenu(menuName = "Contrast/Anomaly Definition")]
 
     public class AnomalyDefinition : ScriptableObject
@@ -13,7 +11,7 @@ namespace Contrast
         public AnomalyCategory category;
 
         [Header("Limits")]
-        [Range(0f, 1f)] public float weight = 0.25f // Weighted change for anomaly spawning
+        [Range(0f, 1f)] public float weight = 0.25f; // Weighted change for anomaly spawning
         public float minGameMinute = 0f;
         public float maxGameMinute = 99f; //Lock before / after a certain time
         public bool allowRepeatInSameRoom = true;
