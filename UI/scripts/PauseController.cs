@@ -6,6 +6,10 @@ public class PauseController : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject pausePanel; 
 
+    [Header("Optional controllers (auto-found if empty)")]
+    [SerializeField] private WinCaseController  winController;
+    [SerializeField] private LoseCaseController loseController;
+
     [Header("Scenes")]
     [SerializeField] private string rulesSceneName    = "Rules";
     [SerializeField] private string mainMenuSceneName = "MainMenu";
@@ -32,8 +36,6 @@ public class PauseController : MonoBehaviour
         isPaused = false;
         if (pausePanel) pausePanel.SetActive(false);
         Time.timeScale = 1f;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Start()
@@ -71,8 +73,6 @@ public class PauseController : MonoBehaviour
     public void GoToMenu()
     {
         Time.timeScale = 1f;
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
@@ -96,8 +96,6 @@ public class PauseController : MonoBehaviour
         if (pausePanel) pausePanel.SetActive(pause);
 
         Time.timeScale = pause ? 0f : 1f;
-        Cursor.visible = pause;
-        Cursor.lockState = pause ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
     private void RestartLevel()

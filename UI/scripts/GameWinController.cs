@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 
-public class WinCaseController : MonoBehaviour
+public class GameWinController : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] private GameObject winPanel;
@@ -87,6 +87,13 @@ public class WinCaseController : MonoBehaviour
     }
 
     public void TryAgain()     { Time.timeScale = 1f; SceneManager.LoadScene(gameScene);         Debug.Log("try again"); }
-    public void NextLevel()    { Time.timeScale = 1f; SceneManager.LoadScene(gameScene);         Debug.Log("nextLVL");} // replace with real next-level
-    public void GoToMainMenu() { Time.timeScale = 1f; SceneManager.LoadScene(mainMenuScene);         Debug.Log("MainMenu");}
+    
+    public void Exit()
+    {
+    #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
+    }
 }
