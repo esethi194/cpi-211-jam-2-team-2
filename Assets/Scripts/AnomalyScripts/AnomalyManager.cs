@@ -1,4 +1,3 @@
-// Assets/Scripts/Anomalies/AnomalyManager.cs
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
