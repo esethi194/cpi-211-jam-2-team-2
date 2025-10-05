@@ -245,7 +245,6 @@ namespace Contrast
             return false;
         }
 
-        // AnomalyManager.cs (additions)
         public IReadOnlyCollection<IAnomaly> Active => _active;
 
         // Returns true if a capturable anomaly was in-frame and got resolved.
