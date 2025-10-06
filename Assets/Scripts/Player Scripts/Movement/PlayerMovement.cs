@@ -58,4 +58,13 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
         }
     }
+
+    private void CameraClick()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            GetComponent<CameraFlash>().Flash();
+            
+        }
+    }
 }
