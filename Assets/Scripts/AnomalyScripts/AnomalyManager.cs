@@ -189,7 +189,7 @@ namespace Contrast
             var anomaly = go.GetComponent<IAnomaly>();
             if (anomaly == null)
             {
-                Debug.LogError($"[AnomalyManager] Prefab for '{def.anomalyId}' lacks IAnomaly component.", def.anomalyPrefab);
+                Debug.LogError($"[AnomalyManager] Prefab for '{def.anomalyId}' lacks IAnomaly.", def.anomalyPrefab);
                 Destroy(go);
                 return;
             }
@@ -203,9 +203,21 @@ namespace Contrast
             };
 
             anomaly.Initialize(ctx);
-            _active.Add(anomaly);
-            room.activeCount++;
-            D($"Spawned '{def.anomalyId}'. Active now={_active.Count}");
+
+            // Only track it if it didn't immediately abort/resolve during Initialize
+            if (!anomaly.IsResolved)
+            {
+                _active.Add(anomaly);
+                room.activeCount++;
+                D($"Spawned '{def.anomalyId}'. Active now={_active.Count}");
+            }
+            else
+            {
+                D($"'{def.anomalyId}' aborted during Initialize; not tracking as active.");
+                // clean up the GameObject if Initialize aborted
+                var mb = anomaly as MonoBehaviour;
+                if (mb) Destroy(mb.gameObject);
+            }
         }
 
 

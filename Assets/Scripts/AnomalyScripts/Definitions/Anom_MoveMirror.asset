@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db08cb8bebba19e4082e45daeab91fb6, type: 3}
-  m_Name: Anom_MoveLaptop
+  m_Name: Anom_MoveMirror
   m_EditorClassIdentifier: 
-  anomalyId: laptop_move
+  anomalyId: move_mirror
   category: 1
   weight: 0.5
   minGameMinute: 0
@@ -23,6 +23,6 @@ MonoBehaviour:
   requiresSpecificSpawnPoints: 1
   allowedSpawnPointTags:
   - default
-  anomalyPrefab: {fileID: 6076784148425728948, guid: 6cd24ab20ac493a4e9e7e3a93536e7a1, type: 3}
+  anomalyPrefab: {fileID: 1592031068890671288, guid: 0ca9e3fb5033add469189094da45fa93, type: 3}
   spawnSfx: {fileID: 0}
   resolveSfx: {fileID: 0}
