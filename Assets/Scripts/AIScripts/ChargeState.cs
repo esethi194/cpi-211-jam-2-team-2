@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ChargeState : MonsterState
@@ -6,7 +7,7 @@ public class ChargeState : MonsterState
     {
         base.OnEnterState(monsterAI);
         // activate the monster
-        monster.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        monster.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         // activate the navmesh agent
         monster.agent.isStopped = false;
         monster.agent.speed = monster.chargeSpeed;
@@ -20,12 +21,7 @@ public class ChargeState : MonsterState
     {
         //chase after player
         monster.agent.destination = monster.player.transform.position;
-
-        if (Vector3.Distance(monster.transform.position, monster.player.transform.position) <
-            monster.agent.stoppingDistance + 0.5f)
-        {
-            GameManager.instance.GameOver();
-            monster.agent.isStopped = true;
-        }
     }
+
+    
 }

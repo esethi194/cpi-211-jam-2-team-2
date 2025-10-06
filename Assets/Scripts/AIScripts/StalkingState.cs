@@ -7,7 +7,7 @@ public class StalkingState : MonsterState
     {
         base.OnEnterState(monsterAI);
         // activate the monster
-        monster.gameObject.GetComponent<MeshRenderer>().enabled = true;
+        monster.gameObject.GetComponent<SpriteRenderer>().enabled = true;
         // activate the navmesh agent
         monster.agent.isStopped = false;
         monster.agent.speed = monster.stalkingSpeed;
@@ -37,7 +37,7 @@ public class StalkingState : MonsterState
         if (Vector3.Distance(monster.transform.position, monster.player.transform.position) < monster.disappearingDistance)
         {
             // The player is too close, hide the monster
-            monster.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            monster.gameObject.GetComponent<SpriteRenderer>().enabled = false;
         }
         // Keep checking distance to player and reposition
         else if (Vector3.Distance(monster.transform.position, monster.player.transform.position) > monster.stalkingDistance)

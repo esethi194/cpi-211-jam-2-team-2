@@ -21,9 +21,15 @@ public class MonsterAI : MonoBehaviour
     //current monster state
     private MonsterState currentState; 
     
+    // sound
+    private SoundManager soundManager;
+    
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        soundManager = GetComponent<SoundManager>();
+        
         ChangeState(new NoActionState());
         
     }
@@ -50,6 +56,9 @@ public class MonsterAI : MonoBehaviour
     {
 
         int count = GameManager.instance.monstersCount;
+        
+        soundManager.PlaySoundForState(count);
+        
         if (count == 1)
         {
            
@@ -64,6 +73,15 @@ public class MonsterAI : MonoBehaviour
         {
             ChangeState(new ChargeState());
         }
+        
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Player" && GameManager.instance.monstersCount == 3)
+        {
+            GameManager.instance.GameOver();
+        }
+        
         
     }
 }

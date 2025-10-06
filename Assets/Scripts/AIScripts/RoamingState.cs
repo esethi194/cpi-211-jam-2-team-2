@@ -7,7 +7,7 @@ public class RoamingState : MonsterState
    {
       base.OnEnterState(monsterAI);
       // activate the monster
-      monster.gameObject.GetComponent<MeshRenderer>().enabled = false;
+      monster.gameObject.GetComponent<SpriteRenderer>().enabled = false;
       // activate the navmesh agent
       monster.agent.isStopped = false;
       FindNewDestination();
