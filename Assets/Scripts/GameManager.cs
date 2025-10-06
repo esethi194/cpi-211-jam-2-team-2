@@ -34,8 +34,14 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        // game over code
+        // game over code here 
         Debug.Log("Game Over");
+    }
+
+    public void GameWin()
+    {
+        // game win code here
+        Debug.Log("Game Win");
     }
     
     
