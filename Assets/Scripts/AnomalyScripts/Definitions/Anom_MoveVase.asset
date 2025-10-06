@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db08cb8bebba19e4082e45daeab91fb6, type: 3}
-  m_Name: Anom_MoveMirror
+  m_Name: Anom_MoveVase
   m_EditorClassIdentifier: 
-  anomalyId: move_mirror
+  anomalyId: move_vase
   category: 1
-  weight: 0.5
+  weight: 0.25
   minGameMinute: 0
   maxGameMinute: 99999
   allowRepeatInSameRoom: 1
@@ -23,6 +23,6 @@ MonoBehaviour:
   requiresSpecificSpawnPoints: 1
   allowedSpawnPointTags:
   - default
-  anomalyPrefab: {fileID: 1592031068890671288, guid: 0ca9e3fb5033add469189094da45fa93, type: 3}
+  anomalyPrefab: {fileID: 6210710306571553330, guid: 306f03e264b84d04a8ec7644a362abb9, type: 3}
   spawnSfx: {fileID: 0}
   resolveSfx: {fileID: 0}
