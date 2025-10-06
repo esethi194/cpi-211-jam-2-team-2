@@ -1185,8 +1185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd016f381df417943bf67449847ad606, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensX: 5
-  sensY: 5
+  sensX: 100
+  sensY: 100
   orientation: {fileID: 760357168}
 --- !u!114 &330585549
 MonoBehaviour:
@@ -2588,7 +2588,7 @@ GameObject:
   - component: {fileID: 698331746}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2728,8 +2728,8 @@ Transform:
   m_GameObject: {fileID: 698331735}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.7277935, y: 2.72, z: -5.03}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalPosition: {x: 2.7277935, y: 1.67, z: -5.03}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 760357168}
@@ -2742,7 +2742,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698331735}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c59c8a8fc9fb43d9a9f4170de4693771, type: 3}
   m_Name: 
@@ -6275,10 +6275,6 @@ PrefabInstance:
       propertyPath: monster
       value: 
       objectReference: {fileID: 2027443623}
-    - target: {fileID: 2549279212582527961, guid: edeaba8609c53c736b9a985095201400, type: 3}
-      propertyPath: monstersCount
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4435089440595898226, guid: edeaba8609c53c736b9a985095201400, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
