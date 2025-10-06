@@ -7,6 +7,15 @@ namespace Contrast
 {
     public class AnomalyManager : MonoBehaviour
     {
+
+        [Header("Debug")]
+        public bool debugLogs = true;
+
+        private void D(string msg, Object ctx = null)
+        {
+            if (debugLogs) Debug.Log($"[AnomalyManager] {msg}", ctx);
+        }
+
         [Header("Catalog")]
         public List<AnomalyDefinition> anomalyCatalog = new();
 
@@ -65,36 +74,74 @@ namespace Contrast
             }
         }
 
+        // Inside the same class
+        private bool IsTypeActiveInRoom(RoomController room, string anomalyId)
+        {
+            foreach (var inst in _active)
+            {
+                if (inst == null || inst.Definition == null) continue;
+                if (inst.Room == room && inst.Definition.anomalyId == anomalyId)
+                    return true;
+            }
+            return false;
+        }
+
+
+        // Inside Contrast.AnomalyManager
         private void TrySpawnOne()
         {
-            if (_active.Count >= globalMaxConcurrent) return;
+            D($"Tick: active={_active.Count}/{globalMaxConcurrent}, rooms={rooms.Count}");
+            if (_active.Count >= globalMaxConcurrent) { D("Blocked: global max reached"); return; }
 
-            // Pick a room with capacity
-            var eligibleRooms = rooms.Where(r => r.activeCount < r.maxConcurrentAnomalies).ToList();
-            if (eligibleRooms.Count == 0) return;
+            // 1) Pick a room that still has capacity
+            var eligibleRooms = rooms.Where(r => r && r.activeCount < r.maxConcurrentAnomalies).ToList();
+            D($"Eligible rooms: {eligibleRooms.Count}");
+            if (eligibleRooms.Count == 0) { D("No eligible rooms"); return; }
 
             var room = eligibleRooms[_rng.Next(eligibleRooms.Count)];
+            D($"Picked room: {room.roomId} (active {room.activeCount}/{room.maxConcurrentAnomalies}, spawnPoints={room.spawnPoints.Count})", room);
 
-            // Build candidate anomaly list
-            var candidates = anomalyCatalog
-                .Where(a => a != null
-                            && _gameMinutes >= a.minGameMinute
-                            && _gameMinutes <= a.maxGameMinute
-                            && !IsInAntiRepeat(a.anomalyId)
-                            && !IsGloballyCoolingDown(a)
-                            && !IsPerRoomCoolingDown(room, a)
-                            && HasValidSpawnPoint(room, a))
-                .ToList();
+            // 2) Build candidate list (time gates, cooldowns, anti-repeat, per-room single-instance, spawn point rules)
+            var candidates = new System.Collections.Generic.List<AnomalyDefinition>();
+            foreach (var a in anomalyCatalog)
+            {
+                if (a == null) continue;
 
-            if (candidates.Count == 0) return;
+                if (!(_gameMinutes >= a.minGameMinute && _gameMinutes <= a.maxGameMinute)) { D($"{a.anomalyId} filtered: time gate"); continue; }
+                if (IsInAntiRepeat(a.anomalyId)) { D($"{a.anomalyId} filtered: anti-repeat"); continue; }
+                if (IsGloballyCoolingDown(a)) { D($"{a.anomalyId} filtered: global cooldown"); continue; }
+                if (IsPerRoomCoolingDown(room, a)) { D($"{a.anomalyId} filtered: room cooldown"); continue; }
+                if (!a.allowRepeatInSameRoom && IsTypeActiveInRoom(room, a.anomalyId)) { D($"{a.anomalyId} filtered: already active in room"); continue; }
+                if (!HasValidSpawnPoint(room, a)) { D($"{a.anomalyId} filtered: no valid spawn point"); continue; }
 
-            // Weighted random by .weight
+                candidates.Add(a);
+            }
+
+            D($"Candidates after filters: {candidates.Count} (catalog={anomalyCatalog.Count})");
+            if (candidates.Count == 0) { D("Blocked: zero candidates"); return; }
+
+            // 3) Weighted pick
             var pick = WeightedPick(candidates, a => a.weight);
-            if (pick == null) return;
+            if (pick == null) { D("WeightedPick returned null"); return; }
 
-            var sp = PickSpawnPoint(room, pick);
-            if (sp == null) return;
+            D($"Picked anomaly: id='{pick.anomalyId}', requiresSP={pick.requiresSpecificSpawnPoints}, allowed=[{(pick.allowedSpawnPointTags == null ? "null" : string.Join(",", pick.allowedSpawnPointTags))}]");
 
+            // 4) Choose a spawn point if required
+            SpawnPoint sp = null;
+            if (pick.requiresSpecificSpawnPoints)
+            {
+                var matches = room.spawnPoints.Where(p => pick.allowedSpawnPointTags != null &&
+                                                          pick.allowedSpawnPointTags.Contains(p.tagId)).ToList();
+                D($"Matching spawn points: {matches.Count}");
+                if (matches.Count == 0) { D("Abort: no matching spawn points for pick"); return; }
+                sp = matches[_rng.Next(matches.Count)];
+            }
+            else
+            {
+                D("No specific spawn point required; using room transform");
+            }
+
+            // 5) Spawn
             SpawnAnomaly(room, sp, pick);
         }
 
@@ -134,11 +181,15 @@ namespace Contrast
 
         private void SpawnAnomaly(RoomController room, SpawnPoint sp, AnomalyDefinition def)
         {
-            var go = Instantiate(def.anomalyPrefab, sp.transform.position, sp.transform.rotation, room.transform);
+            var pos = (sp ? sp.transform.position : room.transform.position);
+            var rot = (sp ? sp.transform.rotation : room.transform.rotation);
+            D($"Instantiating '{def.anomalyId}' at {(sp ? $"SpawnPoint tag='{sp.tagId}'" : "Room origin")} pos={pos}", room);
+
+            var go = Instantiate(def.anomalyPrefab, pos, rot, room.transform);
             var anomaly = go.GetComponent<IAnomaly>();
             if (anomaly == null)
             {
-                Debug.LogError($"Prefab for {def.anomalyId} lacks IAnomaly component.", def);
+                Debug.LogError($"[AnomalyManager] Prefab for '{def.anomalyId}' lacks IAnomaly.", def.anomalyPrefab);
                 Destroy(go);
                 return;
             }
@@ -152,16 +203,23 @@ namespace Contrast
             };
 
             anomaly.Initialize(ctx);
-            _active.Add(anomaly);
-            room.activeCount++;
 
-            if (def.spawnSfx && sfxSource) sfxSource.PlayOneShot(def.spawnSfx);
-
-            // Track recent types for anti-repeat
-            _recentTypes.Enqueue(def.anomalyId);
-            while (_recentTypes.Count > Mathf.Max(antiRepeatBuffer, 0))
-                _recentTypes.Dequeue();
+            // Only track it if it didn't immediately abort/resolve during Initialize
+            if (!anomaly.IsResolved)
+            {
+                _active.Add(anomaly);
+                room.activeCount++;
+                D($"Spawned '{def.anomalyId}'. Active now={_active.Count}");
+            }
+            else
+            {
+                D($"'{def.anomalyId}' aborted during Initialize; not tracking as active.");
+                // clean up the GameObject if Initialize aborted
+                var mb = anomaly as MonoBehaviour;
+                if (mb) Destroy(mb.gameObject);
+            }
         }
+
 
         private void HandleResolved(IAnomaly anomaly)
         {
