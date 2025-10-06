@@ -7,25 +7,20 @@ using UnityEngine;
 namespace Contrast
 {
     /// <summary>
-    /// Generic "move this object to one of its destination markers, then back on resolve".
-    /// - Auto-finds MovableTarget under the room using targetGroupId
-    /// - Filters DestinationMarkers by destinationGroupId
-    /// - Prevents double-control with a static lock
+    /// Moves a target object to one of its destination markers, then back on resolve.
+    /// Uses AnomalyTargetLock so no other anomaly can control the same object concurrently.
     /// </summary>
     public class MovedObjectAnomaly : MonoBehaviour, IAnomaly
     {
         [Header("Target selection")]
-        [Tooltip("Leave empty on the prefab; the script will auto-find the MovableTarget in this room matching targetGroupId.")]
+        [Tooltip("Leave empty on the prefab; auto-found by targetGroupId under the room.")]
         public Transform targetProp;
-
         [Tooltip("Which MovableTarget in the room to control (e.g., \"laptop\" or \"mirror\").")]
         public string targetGroupId = "laptop";
 
         [Header("Destination markers")]
-        [Tooltip("Only DestinationMarkers with this groupId will be considered (e.g., \"laptop\" or \"mirror\").")]
+        [Tooltip("Only DestinationMarkers with this groupId are considered.")]
         public string destinationGroupId = "laptop";
-
-        [Tooltip("If true, prefer the farthest valid marker from the original position; otherwise pick random.")]
         public bool chooseFarthest = true;
 
         [Header("Motion")]
@@ -43,16 +38,13 @@ namespace Contrast
         public SpawnPoint Point { get; private set; }
         public bool IsResolved { get; private set; }
 
-        // Runtime
+        // runtime
         private System.Action<IAnomaly> _onResolved;
         private Vector3 _origPos;
         private Quaternion _origRot;
         private Transform _chosenMarker;
         private Coroutine _motion;
         private float _timer;
-
-        // Prevent two anomalies from grabbing the same target simultaneously.
-        private static readonly HashSet<Transform> s_lockedTargets = new HashSet<Transform>();
 
         public void Initialize(AnomalyRuntimeContext ctx)
         {
@@ -61,7 +53,7 @@ namespace Contrast
             Point = ctx.spawnPoint;
             _onResolved = ctx.onResolved;
 
-            // 1) Find the correct MovableTarget (by group) under this room
+            // 1) Find the correct MovableTarget by group under this room
             if (!targetProp)
             {
                 var targets = Room.GetComponentsInChildren<MovableTarget>(true);
@@ -74,46 +66,42 @@ namespace Contrast
             if (!targetProp)
             {
                 Debug.LogError($"[MovedObjectAnomaly] No MovableTarget with group='{targetGroupId}' under room '{Room.roomId}'.");
-                Abort();
-                return;
+                Abort(); return;
             }
 
-            // Lock the target so no other anomaly controls it concurrently
-            if (s_lockedTargets.Contains(targetProp))
+            // 2) Acquire shared lock
+            if (!AnomalyTargetLock.TryLock(targetProp))
             {
                 Debug.LogWarning($"[MovedObjectAnomaly] Target '{targetProp.name}' already controlled. Aborting spawn.");
-                Abort();
-                return;
+                Abort(); return;
             }
-            s_lockedTargets.Add(targetProp);
 
-            // 2) Cache original transform
+            // 3) Cache original transform
             _origPos = targetProp.position;
             _origRot = targetProp.rotation;
 
-            // 3) Collect destination markers for this object (by group)
+            // 4) Collect destination markers for this object (by group)
             var markers = Room.GetComponentsInChildren<DestinationMarker>(true)
                               .Where(m => string.IsNullOrEmpty(destinationGroupId) || m.groupId == destinationGroupId)
                               .Select(m => m.transform)
                               .ToList();
 
-            // Prefer markers that are not essentially the same spot
+            // Prefer markers not at the same spot; if none, fall back to any
             var candidates = markers.Where(m => Vector3.Distance(m.position, _origPos) > 0.01f).ToList();
-            if (candidates.Count == 0) candidates = markers; // fallback if only same-spot markers exist
+            if (candidates.Count == 0) candidates = markers;
 
             if (candidates.Count == 0)
             {
                 Debug.LogWarning($"[MovedObjectAnomaly] No DestinationMarker with group='{destinationGroupId}' under room '{Room.roomId}'.");
-                ReleaseLock();
-                Abort();
-                return;
+                AnomalyTargetLock.Release(targetProp);
+                Abort(); return;
             }
 
             _chosenMarker = chooseFarthest
                 ? candidates.OrderByDescending(m => Vector3.Distance(m.position, _origPos)).First()
                 : candidates[Random.Range(0, candidates.Count)];
 
-            // 4) Animate to destination
+            // 5) Animate to destination
             _motion = StartCoroutine(MoveOverTime(_origPos, _chosenMarker.position, _origRot, _chosenMarker.rotation, moveOutDuration));
         }
 
@@ -136,7 +124,7 @@ namespace Contrast
         {
             yield return MoveOverTime(targetProp.position, _origPos, targetProp.rotation, _origRot, moveBackDuration);
             IsResolved = true;
-            ReleaseLock();
+            AnomalyTargetLock.Release(targetProp);
             _onResolved?.Invoke(this);
         }
 
@@ -169,26 +157,16 @@ namespace Contrast
         private void Abort()
         {
             IsResolved = true;
+            // Release in case we had locked (safe even if we didn't)
+            AnomalyTargetLock.Release(targetProp);
             _onResolved?.Invoke(this);
-        }
-
-        private void ReleaseLock()
-        {
-            if (targetProp) s_lockedTargets.Remove(targetProp);
         }
 
         private void OnDestroy()
         {
-            // Safety: if something destroys this without resolve, release lock and restore
+            // Safety: if destroyed mid-run, restore lock state
             if (!IsResolved)
-            {
-                ReleaseLock();
-                if (targetProp)
-                {
-                    targetProp.position = _origPos;
-                    targetProp.rotation = _origRot;
-                }
-            }
+                AnomalyTargetLock.Release(targetProp);
         }
     }
 }
