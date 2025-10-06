@@ -1526,7 +1526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8894a0894140cae4598608aa073302ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tagId: 
+  tagId: default
   roomOverride: {fileID: 0}
 --- !u!1 &371899796
 GameObject:
@@ -2924,6 +2924,7 @@ GameObject:
   - component: {fileID: 698331745}
   - component: {fileID: 698331747}
   - component: {fileID: 698331746}
+  - component: {fileID: 698331748}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3130,6 +3131,33 @@ MonoBehaviour:
   moveSpeed: 6
   groundDrag: 5
   orientation: {fileID: 760357168}
+--- !u!114 &698331748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698331735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12cdc812035d817478f87bbba1777c3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 330585545}
+  flashOverlay: {fileID: 2106686428}
+  captureKey: 323
+  maxRayDistance: 40
+  rayMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  flashHoldSecondsMin: 0.12
+  flashFadeSeconds: 0.25
+  resolveBufferSeconds: 0.05
+  shotCooldown: 1.2
+  audioSource: {fileID: 0}
+  shutterSfx: {fileID: 0}
+  successSfx: {fileID: 0}
+  failSfx: {fileID: 0}
 --- !u!1 &731009017
 GameObject:
   m_ObjectHideFlags: 0
@@ -3406,26 +3434,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 407d6dff82adc104d942af41a1207f77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugLogs: 1
+  rooms:
+  - {fileID: 125013380}
+  - {fileID: 909450111}
   anomalyCatalog:
   - {fileID: 11400000, guid: aed2e96f7270ad14abc4f36b0f0a5c77, type: 2}
   - {fileID: 11400000, guid: 603d775fe14d97045aea66d685e26439, type: 2}
   - {fileID: 11400000, guid: c96447a81bb308b448e943c85f39b2bc, type: 2}
-  rooms:
-  - {fileID: 125013380}
-  - {fileID: 909450111}
   globalMaxConcurrent: 4
   baseSpawnInterval: 15
-  spawnIntervalCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  antiRepeatBuffer: 0
+  spawnJitter: 2
+  gameMinutesPerSecond: 1
   seedRng: 1
   rngSeed: 12345
-  sfxSource: {fileID: 0}
+  antiRepeatWindowSeconds: 0
+  debugLogs: 1
 --- !u!4 &825254896
 Transform:
   m_ObjectHideFlags: 0
@@ -5428,7 +5451,7 @@ Transform:
   m_GameObject: {fileID: 1383044330}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 75.355, y: 19.008, z: 70.66}
+  m_LocalPosition: {x: 75.355, y: 19.217, z: 70.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

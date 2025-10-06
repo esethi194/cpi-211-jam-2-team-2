@@ -16,8 +16,8 @@ MonoBehaviour:
   category: 1
   weight: 0.5
   minGameMinute: 0
-  maxGameMinute: 99
-  allowRepeatInSameRoom: 0
+  maxGameMinute: 99999
+  allowRepeatInSameRoom: 1
   globalCooldownSeconds: 60
   perRoomCooldownSeconds: 90
   requiresSpecificSpawnPoints: 1
