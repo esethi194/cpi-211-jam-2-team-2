@@ -8,6 +8,7 @@ public class StalkingState : MonsterState
         base.OnEnterState(monsterAI);
         // activate the monster
         monster.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        monster.gameObject.GetComponent<CapsuleCollider>().enabled = false;
         // activate the navmesh agent
         monster.agent.isStopped = false;
         monster.agent.speed = monster.stalkingSpeed;

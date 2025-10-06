@@ -80,6 +80,7 @@ public class MonsterAI : MonoBehaviour
         if (collision.collider.tag == "Player" && GameManager.instance.monstersCount == 3)
         {
             GameManager.instance.GameOver();
+            GetComponent<CapsuleCollider>().enabled = false;
         }
         
         
