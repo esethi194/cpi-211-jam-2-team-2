@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db08cb8bebba19e4082e45daeab91fb6, type: 3}
   m_Name: Anom_MovePainting
   m_EditorClassIdentifier: 
-  anomalyId: 
+  anomalyId: move_painting
   category: 0
   weight: 0.25
   minGameMinute: 0
-  maxGameMinute: 99
+  maxGameMinute: 9999999
   allowRepeatInSameRoom: 1
   globalCooldownSeconds: 60
   perRoomCooldownSeconds: 90

@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db08cb8bebba19e4082e45daeab91fb6, type: 3}
-  m_Name: Anom_MoveChair
+  m_Name: Move_Towel2
   m_EditorClassIdentifier: 
-  anomalyId: move_chair
+  anomalyId: move_towel
   category: 0
   weight: 0.25
   minGameMinute: 0
-  maxGameMinute: 9999999
+  maxGameMinute: 999999
   allowRepeatInSameRoom: 1
   globalCooldownSeconds: 60
   perRoomCooldownSeconds: 90
   requiresSpecificSpawnPoints: 1
   allowedSpawnPointTags:
   - default
-  anomalyPrefab: {fileID: 1866758115862844631, guid: 043073d6031521a4fbce9a47edb3d8e3, type: 3}
+  anomalyPrefab: {fileID: 7633531349992467365, guid: 6d0837527ce228b46a3b937e0b58b72d, type: 3}
   spawnSfx: {fileID: 0}
   resolveSfx: {fileID: 0}

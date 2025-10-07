@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db08cb8bebba19e4082e45daeab91fb6, type: 3}
   m_Name: Move_Rug
   m_EditorClassIdentifier: 
-  anomalyId: 
+  anomalyId: move_rug
   category: 0
   weight: 0.25
   minGameMinute: 0
-  maxGameMinute: 99
+  maxGameMinute: 999999
   allowRepeatInSameRoom: 1
   globalCooldownSeconds: 60
   perRoomCooldownSeconds: 90
   requiresSpecificSpawnPoints: 1
-  allowedSpawnPointTags: []
-  anomalyPrefab: {fileID: 0}
+  allowedSpawnPointTags:
+  - default
+  anomalyPrefab: {fileID: 5197436640684102387, guid: d455c1964f995564b9a8ab0043ad2e0f, type: 3}
   spawnSfx: {fileID: 0}
   resolveSfx: {fileID: 0}

@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db08cb8bebba19e4082e45daeab91fb6, type: 3}
   m_Name: Move_Bear
   m_EditorClassIdentifier: 
-  anomalyId: 
+  anomalyId: move_bear
   category: 0
   weight: 0.25
   minGameMinute: 0
-  maxGameMinute: 99
+  maxGameMinute: 99999
   allowRepeatInSameRoom: 1
   globalCooldownSeconds: 60
   perRoomCooldownSeconds: 90
   requiresSpecificSpawnPoints: 1
-  allowedSpawnPointTags: []
-  anomalyPrefab: {fileID: 0}
+  allowedSpawnPointTags:
+  - default
+  anomalyPrefab: {fileID: 2788346445652324810, guid: 257275e931c32614e8ce4a209f24fa6b, type: 3}
   spawnSfx: {fileID: 0}
   resolveSfx: {fileID: 0}
