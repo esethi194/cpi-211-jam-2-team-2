@@ -39,8 +39,7 @@ public class GameManager : MonoBehaviour
         // game over code here
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        player.SetActive(false);
-        camera.SetActive(false);
+        
         SceneManager.LoadScene(3);
         
     }
@@ -50,8 +49,7 @@ public class GameManager : MonoBehaviour
         // game win code here
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        player.SetActive(false);
-        camera.SetActive(false);
+        
         SceneManager.LoadScene(2);
     }
     
