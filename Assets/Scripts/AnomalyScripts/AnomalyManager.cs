@@ -72,7 +72,7 @@ namespace Contrast
             // advance game clock
             _gameMinutes += Time.deltaTime * Mathf.Max(0f, gameMinutesPerSecond);
             gameTimetoWin(_gameMinutes);
-            anomaliesToMonsterState();
+            
 
             // spawn tick
             if (Time.time >= _nextSpawnAt)
@@ -196,6 +196,7 @@ namespace Contrast
                 var mb = anomaly as MonoBehaviour;
                 if (mb) Destroy(mb.gameObject);
             }
+            anomaliesToMonsterState();
         }
 
         private void HandleResolved(IAnomaly anomaly)
