@@ -31,7 +31,7 @@ namespace Contrast
         [Tooltip("Anomalies to state")]
         public const int roamAnoma = 1;
         public const int stalkAnoma = 3;
-        public const int chargeAnoma = 13;
+        public const int chargeAnoma = 8;
 
         [Header("Randomness")]
         [Tooltip("If true, use the fixed seed below for deterministic runs.")]
