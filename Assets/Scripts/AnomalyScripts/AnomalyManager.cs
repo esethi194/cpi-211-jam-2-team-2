@@ -29,8 +29,8 @@ namespace Contrast
         public float winTime = 7f*60f;
         
         [Tooltip("Anomalies to state")]
-        public const int roamAnoma = 2;
-        public const int stalkAnoma = 4;
+        public const int roamAnoma = 1;
+        public const int stalkAnoma = 3;
         public const int chargeAnoma = 5;
 
         [Header("Randomness")]
