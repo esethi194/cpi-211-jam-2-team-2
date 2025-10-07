@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anomalyId: move_mirror
   category: 1
-  weight: 0.5
+  weight: 0.25
   minGameMinute: 0
   maxGameMinute: 99999
   allowRepeatInSameRoom: 1
