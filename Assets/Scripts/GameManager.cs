@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
@@ -35,13 +35,13 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         // game over code here 
-        Debug.Log("Game Over");
+        SceneManager.LoadScene(3);
     }
 
     public void GameWin()
     {
         // game win code here
-        Debug.Log("Game Win");
+        SceneManager.LoadScene(2);
     }
     
     
