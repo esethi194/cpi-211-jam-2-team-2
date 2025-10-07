@@ -21,6 +21,7 @@ public class LoseCaseController : MonoBehaviour
 
     void Start()
     {
+        
         if (losePanel) losePanel.SetActive(true);
     }
 

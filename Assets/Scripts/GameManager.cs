@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public int monstersCount = 0;
     public GameObject monster;
+    public GameObject player;
+    public GameObject camera;
     private void Awake()
     {
         if (instance == null)
@@ -34,13 +36,22 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        // game over code here 
+        // game over code here
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        player.SetActive(false);
+        camera.SetActive(false);
         SceneManager.LoadScene(3);
+        
     }
 
     public void GameWin()
     {
         // game win code here
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        player.SetActive(false);
+        camera.SetActive(false);
         SceneManager.LoadScene(2);
     }
     
