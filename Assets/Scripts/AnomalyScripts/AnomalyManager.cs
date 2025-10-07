@@ -27,6 +27,11 @@ namespace Contrast
         
         [Tooltip("The time when the player wins")]
         public float winTime = 7f*60f;
+        
+        [Tooltip("Anomalies to state")]
+        public const int roamAnoma = 2;
+        public const int stalkAnoma = 4;
+        public const int chargeAnoma = 5;
 
         [Header("Randomness")]
         [Tooltip("If true, use the fixed seed below for deterministic runs.")]
@@ -67,6 +72,7 @@ namespace Contrast
             // advance game clock
             _gameMinutes += Time.deltaTime * Mathf.Max(0f, gameMinutesPerSecond);
             gameTimetoWin(_gameMinutes);
+            anomaliesToMonsterState();
 
             // spawn tick
             if (Time.time >= _nextSpawnAt)
@@ -440,6 +446,26 @@ namespace Contrast
                 GameManager.instance.GameWin();
             }
         }
+        // monster state based on anomalies
+        public void anomaliesToMonsterState()
+        {
+            switch (_active.Count)
+            {
+                case 0:
+                    GameManager.instance.RegisterMonsterState(0);
+                    break;
+                case roamAnoma:
+                    GameManager.instance.RegisterMonsterState(1);
+                    break;
+                case stalkAnoma:
+                    GameManager.instance.RegisterMonsterState(2);
+                    break;
+                case chargeAnoma:
+                    GameManager.instance.RegisterMonsterState(3);
+                    break;
+            }
+        }
+        
         
         // Optional helper to list what�s active in a room
         public void DebugListActive(string roomId)

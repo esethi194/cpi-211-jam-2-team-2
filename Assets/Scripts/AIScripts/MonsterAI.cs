@@ -58,6 +58,11 @@ public class MonsterAI : MonoBehaviour
         int count = GameManager.instance.monstersCount;
         
         soundManager.PlaySoundForState(count);
+
+        if (count == 0)
+        {
+            ChangeState(new NoActionState());
+        }
         
         if (count == 1)
         {

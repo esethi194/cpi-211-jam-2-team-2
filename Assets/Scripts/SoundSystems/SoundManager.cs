@@ -38,13 +38,16 @@ public class SoundManager : MonoBehaviour
         switch (soundID)
         {
             case 1:
+                audioSource.Stop();
                 soundLoopCoroutine = StartCoroutine(SoundLoop(roamingClip));
                 
                 break;
             case 2:
+                audioSource.Stop();
                 soundLoopCoroutine = StartCoroutine(SoundLoop(stalkingClip));
                 break;
             case 3:
+                audioSource.Stop();
                 soundLoopCoroutine = StartCoroutine(PlayChargeSequence());
                 break;
             default:
