@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db08cb8bebba19e4082e45daeab91fb6, type: 3}
-  m_Name: Move_Towel2
+  m_Name: Move_ArmChair
   m_EditorClassIdentifier: 
-  anomalyId: move_towel2
+  anomalyId: move_armchair
   category: 0
   weight: 0.25
   minGameMinute: 0
@@ -23,6 +23,6 @@ MonoBehaviour:
   requiresSpecificSpawnPoints: 1
   allowedSpawnPointTags:
   - default
-  anomalyPrefab: {fileID: 7633531349992467365, guid: 6d0837527ce228b46a3b937e0b58b72d, type: 3}
+  anomalyPrefab: {fileID: 1928495245518337456, guid: bf4b9ac73dcbbeb458bebb9c5b1cf88b, type: 3}
   spawnSfx: {fileID: 0}
   resolveSfx: {fileID: 0}

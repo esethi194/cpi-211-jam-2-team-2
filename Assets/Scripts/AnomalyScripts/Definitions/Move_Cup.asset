@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db08cb8bebba19e4082e45daeab91fb6, type: 3}
   m_Name: Move_Cup
   m_EditorClassIdentifier: 
-  anomalyId: move_towel
+  anomalyId: move_cup
   category: 0
   weight: 0.25
   minGameMinute: 0
@@ -23,6 +23,6 @@ MonoBehaviour:
   requiresSpecificSpawnPoints: 1
   allowedSpawnPointTags:
   - default
-  anomalyPrefab: {fileID: 7633531349992467365, guid: 6d0837527ce228b46a3b937e0b58b72d, type: 3}
+  anomalyPrefab: {fileID: 6084799706970619, guid: 01e3d7dd3b6acc641a41d2ac0436fc50, type: 3}
   spawnSfx: {fileID: 0}
   resolveSfx: {fileID: 0}
