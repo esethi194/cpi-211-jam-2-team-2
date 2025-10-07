@@ -24,6 +24,9 @@ namespace Contrast
 
         [Tooltip("Game minutes advanced per real-time second.")]
         public float gameMinutesPerSecond = 1f;
+        
+        [Tooltip("The time when the player wins")]
+        public float winTime = 7f*60f;
 
         [Header("Randomness")]
         [Tooltip("If true, use the fixed seed below for deterministic runs.")]
@@ -63,6 +66,7 @@ namespace Contrast
         {
             // advance game clock
             _gameMinutes += Time.deltaTime * Mathf.Max(0f, gameMinutesPerSecond);
+            gameTimetoWin(_gameMinutes);
 
             // spawn tick
             if (Time.time >= _nextSpawnAt)
@@ -427,8 +431,17 @@ namespace Contrast
             D($"CheckReport: no match in '{roomId}' (category={(category.HasValue ? category.ToString() : "null")}, id/target={anomalyOrTargetId ?? "null"})");
             return false;
         }
-
-        // Optional helper to list what’s active in a room
+        
+        //time to win
+        public void gameTimetoWin(float game_time)
+        {
+            if (game_time >= winTime)
+            {
+                GameManager.instance.GameWin();
+            }
+        }
+        
+        // Optional helper to list whatï¿½s active in a room
         public void DebugListActive(string roomId)
         {
             var room = rooms.FirstOrDefault(r => r && r.roomId == roomId);
